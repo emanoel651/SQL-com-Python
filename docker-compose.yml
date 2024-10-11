@@ -1,0 +1,39 @@
+# Especifica a versão do Docker Compose que estamos utilizando
+version: '3.8'
+
+# Define os serviços que serão executados pelo Docker Compose
+services:
+  # Configuração do serviço MySQL
+  mysql:
+    # Define a imagem Docker a ser usada para o serviço
+    # Aqui estamos usando a imagem oficial do MySQL na versão 8.4.0
+    image: mysql:8.4.0
+    
+    # Nome do container que será criado para este serviço
+    container_name: mysql-8.4
+    
+    # Define variáveis de ambiente para configuração do MySQL
+    environment:
+      # Senha do usuário root do MySQL
+      MYSQL_ROOT_PASSWORD: root_password
+      # Nome do banco de dados a ser criado no início
+      MYSQL_DATABASE: my_database
+      # Nome de usuário adicional com permissões no banco de dados
+      MYSQL_USER: my_user
+      # Senha para o usuário adicional
+      MYSQL_PASSWORD: my_password
+    
+    # Mapeia a porta do container para a porta do host
+    # Isso permite que você acesse o MySQL no host local via porta 3306
+    ports:
+      - "3306:3306"
+    
+    # Monta volumes para persistência de dados
+    # Isso garante que os dados do MySQL não sejam perdidos quando o container for reiniciado
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+# Define volumes que serão utilizados pelos serviços
+# Neste caso, estamos definindo um volume nomeado 'mysql_data'
+volumes:
+  mysql_data:
